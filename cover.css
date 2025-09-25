@@ -64,6 +64,11 @@
     /* margin-top: calc(100vh - 1035px); */
     bottom: 0;
 }
+@media (max-width: 500px) {
+    .footer {
+        height: 90px;
+    }
+}
 .footer p {
     margin: 0;
 }
