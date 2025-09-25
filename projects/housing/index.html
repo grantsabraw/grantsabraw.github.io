@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100" data-bs-theme="light">
+
+<head>
+    <script src="/docs/5.3/assets/js/color-modes.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Grant Sabraw">
+    <title>Grant Sabraw</title>
+    <link rel="icon" type="image/x-icon" href="../../favicon.ico">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/cover/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link href="../../cover.css" rel="stylesheet">
+    <link href="main.js" rel="script">
+</head>
+
+<body class="d-flex text-center text-bg-light">
+    <div class="d-flex w-100 mx-auto flex-column">
+        <header class="cover-navbar mb-auto">
+            <div>
+                <h3 class="float-md-start mb-0" id="navbar-brand-name">Grant Sabraw</h3>
+                <nav class="nav justify-content-center float-md-end">
+                    <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="../../index.html">Home</a>
+                    <a class="nav-link fw-bold py-1 px-0" href="../index.html">Projects</a>
+                    <a class="nav-link fw-bold py-1 px-0" href="../../about/index.html">About</a>
+                    <a class="nav-link fw-bold py-1 px-0" href="../../contact/index.html">Contact</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="projects-container">
+            <section class="container-fluid py-3" id="top-section">
+                <div class="row py-lg-5 mx-auto">
+                    <div class="col-lg-6 col-md-8 mx-auto">
+                        <h1 id="heading">Visualizing the Housing Crisis</h1>
+                    </div>
+                </div>
+            </section>
+            <div class="album">
+                <div class="container">
+                    <div class="col-lg-8 col-md-12 mx-auto" id="paragraph">
+                        <p>This project was part of a BCIT cartography course and involved designing a thematic map with
+                            the freedom of choosing the geographic area, map theme, data, feature classes, and
+                            specifications like symbology, data classification, colours, symbols, annotation, etc.</p>
+                        <p>While brainstorming ideas for this project I knew I wanted to do
+                            something with census data. The issue of housing affordability is rather prominent and
+                            seemed like it would make an interesting theme. Below, as you can see, I used dissemination
+                            areas (which are the smallest geographic areas for census data) for the main
+                            map and census tracts for the key map, and chose to display the
+                            particular metric of percentage of households that spend more than 30% of their income on
+                            shelter costs which includes both renters and owners.</p>
+                        <p>An interesting feature of this dataset
+                            is how Stanley Park shows up in the 40-50% range. Within that area there are some
+                            residential buildings but they are located next to adjacent census areas which gives a false
+                            impression that the entire park is populated with houses. I decided to leave Stanley Park in
+                            the final dataset for the sake of accurately representing the source data. Though if I were
+                            to do it again I think I would exclude Stanley Park or modify the polygon to overlap with
+                            the real locations of shelters within that area. Also, green coloured roads might seem like
+                            an odd
+                            choice but they contrast well with the orange/red polygons</p>
+                        <p>Although much of the areas
+                            are lightly coloured, indicating that only 10-30% of households are affected, that
+                            still seems like a rather significant proportion which comes at no surprise given the
+                            reputation Vancouver has with respect to housing affordability. It will be interesting to
+                            see how data from the next census compares. However, I suspect it will show a worsening
+                            trend. </p>
+                    </div>
+                    <div class="row col-12" id="">
+                        <img src="GS-8117-Proj-4-4.png" id="howe-sound-img"
+                            alt="General reference map of Howe Sound, BC">
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>© 2025 Grant Sabraw</p>
+            <p>Images, maps, and webpages created by Grant Sabraw unless otherwise noted</p>
+            <p>Connect with me: <a href="https://linkedin.com/in/grant-sabraw-469b5a17a">LinkedIn</a></p>
+        </footer>
+    </div>
+    <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+
+    <div id="definer-bubble-host"
+        style="position: absolute; top: 0px; overflow: visible; z-index: 500000; width: 0px; height: 0px; min-height: 0px; margin: 0px; padding: 0px;">
+    </div>
+</body>
+
+</html>

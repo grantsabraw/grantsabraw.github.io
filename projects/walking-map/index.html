@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100" data-bs-theme="light">
+
+<head>
+    <script src="/docs/5.3/assets/js/color-modes.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Grant Sabraw">
+    <title>Grant Sabraw</title>
+    <link rel="icon" type="image/x-icon" href="../../favicon.ico">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/cover/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <link href="../../cover.css" rel="stylesheet">
+    <link href="main.js" rel="script">
+</head>
+
+<body class="d-flex text-center text-bg-light">
+    <div class="d-flex w-100 mx-auto flex-column">
+        <header class="cover-navbar mb-auto">
+            <div>
+                <h3 class="float-md-start mb-0" id="navbar-brand-name">Grant Sabraw</h3>
+                <nav class="nav justify-content-center float-md-end">
+                    <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="../../index.html">Home</a>
+                    <a class="nav-link fw-bold py-1 px-0" href="../index.html">Projects</a>
+                    <a class="nav-link fw-bold py-1 px-0" href="../../about/index.html">About</a>
+                    <a class="nav-link fw-bold py-1 px-0" href="../../contact/index.html">Contact</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="projects-container">
+            <section class="container-fluid py-3" id="top-section">
+                <div class="row py-lg-5 mx-auto">
+                    <div class="col-lg-6 col-md-8 mx-auto">
+                        <h1 id="heading">Walking Map</h1>
+                    </div>
+                </div>
+            </section>
+            <div class="album">
+                <div class="container">
+                    <div class="col-lg-8 col-md-12 mx-auto" id="paragraph">
+                        <p>Walking is one of my favorite activities and forms of exercise. Since January of 2025 I have
+                            been tracking my position during my walks and bike rides and recording some extra data too.
+                            In the map
+                            below (map 1), 4 tracks are displayed with more data available in popups. </p>
+                    </div>
+                    <div class="row col-12 pb-4" id="map-div">
+                        <iframe src="walking-map/index.html" width="100%" height="600px"
+                            style="border:none;"></iframe>
+                        <p><i>Map 1. Example of 3 walking tracks and 1 biking track. Over 120 tracks have been omitted
+                                for
+                                the sake of privacy as most tracks begin and end at my house.</i></p>
+                    </div>
+
+                    <div class="col-lg-8 col-md-12 mx-auto" id="paragraph">
+                        <p>As I was getting more familiar with ArcGIS Online (AGOL), I decided to start my own little
+                            project using ArcGIS Field Maps to track my position while going for walks. As much as I
+                            loved the convenience of AGOL and cloud based mapping, eventually I had to port my project
+                            to QGIS and QField due to my expiring student license. However, that turned out to be a
+                            blessing in disguise as it encouraged me to become more familiar with QGIS and QField which
+                            I found to be a nice experience. </p>
+                        <p>The first feature I recorded contained only the tracks themselves but slowly I added more and
+                            more attributes (table 1) like duration which allowed me to calculate average speed. For
+                            science, I
+                            considered whether I was walking with someone else (which may affect walking speed) and
+                            temperature. I can say that as of September 24 and using 82 samples (when I was walking
+                            alone) that my average walking speed is about <b>1.42 m/s</b> or <b>5.12 km/h</b>. These
+                            values are for
+                            temperatures that range from -29 to +29 degrees celsius and don't consider vertical movement
+                            (hilly vs flat area). </p>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 mx-auto table-responsive">
+                        <table class="map-table table table-striped">
+                            <caption id="map-table-caption">
+                                Table 1. Attribute table for walking tracks.
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th>fid</th>
+                                    <th>Date</th>
+                                    <th>Temperature (°C)</th>
+                                    <th>Walking partner (y/n)</th>
+                                    <th>Ave speed (m/s)</th>
+                                    <th>Minutes</th>
+                                    <th>Seconds</th>
+                                    <th>Total seconds</th>
+                                    <th>Line length (m)</th>
+                                    <th>Comments</th>
+                                    <th>Ave speed (km/h)</th>
+                                    <th>Line length error (m)</th>
+                                    <th>Ave horizontal accuracy (m)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>52</td>
+                                    <td>2025-04-16</td>
+                                    <td>10</td>
+                                    <td>y</td>
+                                    <td>1.35</td>
+                                    <td>32</td>
+                                    <td>34</td>
+                                    <td>1954</td>
+                                    <td>2641.21</td>
+                                    <td>It was nice to walk in a different area!</td>
+                                    <td>4.87</td>
+                                    <td>83.82</td>
+                                    <td>3.46</td>
+                                </tr>
+                                <tr>
+                                    <td>125</td>
+                                    <td>2025-09-22</td>
+                                    <td>15</td>
+                                    <td>n</td>
+                                    <td>1.31</td>
+                                    <td>39</td>
+                                    <td>36</td>
+                                    <td>2376</td>
+                                    <td>3112.75</td>
+                                    <td>Windy and chilly but otherwise pleasant. Fall leaves made for an enjoyable walk
+                                    </td>
+                                    <td>4.72</td>
+                                    <td>135.96</td>
+                                    <td>5.75</td>
+                                </tr>
+                                <tr>
+                                    <td>126</td>
+                                    <td>2025-09-23</td>
+                                    <td>12</td>
+                                    <td>n</td>
+                                    <td>1.48</td>
+                                    <td>34</td>
+                                    <td>32</td>
+                                    <td>2072</td>
+                                    <td>3058.69</td>
+                                    <td>Lovely day for a walk. Started at the Walmart parking lot and walked down roads
+                                        I haven't been down in a
+                                        long time.</td>
+                                    <td>5.31</td>
+                                    <td>71.12</td>
+                                    <td>2.99</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-lg-8 col-md-12 mx-auto" id="paragraph">
+                        <p>A possible limitation includes the lack of elevation in the line length measurement which
+                            would impact the average speed calculations. However, after deriving z-values from a DEM,
+                            calculating the 3D line length and comparing that to the 2D line length a
+                            negligible difference was found. Unless I was doing some major hiking, elevation isn't as
+                            important. </p>
+                        <p>Eventually I decided to start recording horizontal GPS accuracy as m-values which allowed me
+                            to find the average accuracy for each feature and the average of all features. To my
+                            surprise, the total average GPS horizontal accuracy for 101 features turned out to be 3.38
+                            m which seems pretty good. A custom Field Calculator function was written to carry out this
+                            calculation: </p>
+                        <pre id="walk-code1">
+                        <code>
+from qgis.core import *
+from qgis.gui import *
+
+@qgsfunction(group='Custom', args='auto', referenced_columns=[])
+def ave_m(geometry, feature, parent):
+    """
+    Calculates the average m-value for a line feature.
+    <h2>Example usage:</h2>
+    <ul>
+      <li>ave_m(@geometry) -> 3.59</li>
+    </ul>
+    """
+    geom = feature.geometry()
+    
+    average = 0
+    
+    num_vertices = sum(len(part) for part in geom.asMultiPolyline())
+    
+    for i in range(num_vertices):
+        point = geom.vertexAt(i)
+        average += point.m()
+
+    average = average / num_vertices
+    
+    return average
+                        </code>
+                    </pre>
+                        <h2 class="header-2 pb-5" id="walking-limits">Walking Limits</h2>
+                        <p>What inspired me to write the <a href="../spatiallyorderpoints/index.html">spatially order
+                                points</a> tool was my idea to use my average
+                            walking speed and the BC road network to create a series of polygons that represent the time
+                            it takes to walk to any point along that network from a starting point (my house). In map 2
+                            below, I used the intersection of 100th St and 100th Ave to give an example. If I were to
+                            start a route from this point, it would take me at least 5 mins to reach the black polygon,
+                            10 mins
+                            to reach the blue one, and so on. </p>
+                    </div>
+                    <div class="row col-12 pb-4" id="map-div">
+                        <iframe src="limits-map/index.html" width="100%" height="600px" style="border:none;"></iframe>
+                        <p><i>Map 2. Example of the time it takes to walk anywhere from the starting point.</i></p>
+                    </div>
+                    <div class="col-lg-8 col-md-12 mx-auto" id="paragraph">
+                        <p>Although one could just use Google Maps to figure out route times, this method works well for
+                            a quick reference: if I want to keep the walk within 30 mins then I know not to exceed the
+                            teal or 15 min polygon (as it takes 15 mins to get there and 15 mins to get back). </p>
+                        <p>Map 3 shows some of the intermediate features involved in the creation of the limits feature
+                            class. Creating the end node points was more challenging than expected due to some
+                            peculiarities of the network processing tools in QGIS. Undoubtedly, this would have been
+                            easier in ArcGIS Pro. However, I found a work around and eventually was able to extract the
+                            points necessary for the next step: using the spatially sort points tool. As can be seen in
+                            map 3, the end nodes are labelled with their order relative to an arbitrary starting point
+                            (0). From this point, it's a simple matter of using the Points to Path and Lines to Polygon
+                            tools. Sometimes the resulting lines need some manual cleaning but all in all, this method
+                            is faster than creating each line manually. </p>
+                    </div>
+                    <div class="row col-12 pb-4" id="map-div">
+                        <iframe src="example-map/index.html" width="100%" height="600px" style="border:none;"></iframe>
+                        <p><i>Map 3. Example of some of the features involved in the process of making the limits
+                                features. </i></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>© 2025 Grant Sabraw</p>
+            <p>Images, maps, and webpages created by Grant Sabraw unless otherwise noted</p>
+            <p>Connect with me: <a href="https://linkedin.com/in/grant-sabraw-469b5a17a">LinkedIn</a></p>
+        </footer>
+    </div>
+    <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <div id="definer-bubble-host"
+        style="position: absolute; top: 0px; overflow: visible; z-index: 500000; width: 0px; height: 0px; min-height: 0px; margin: 0px; padding: 0px;">
+    </div>
+</body>
+
+</html>

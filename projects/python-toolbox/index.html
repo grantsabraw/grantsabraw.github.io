@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100" data-bs-theme="light">
+
+<head>
+    <script src="/docs/5.3/assets/js/color-modes.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Grant Sabraw">
+    <title>Grant Sabraw</title>
+    <link rel="icon" type="image/x-icon" href="../../favicon.ico">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/cover/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <link href="../../cover.css" rel="stylesheet">
+    <link href="main.js" rel="script">
+</head>
+
+<body class="d-flex text-center text-bg-light">
+    <div class="d-flex w-100 mx-auto flex-column">
+        <header class="cover-navbar mb-auto">
+            <div>
+                <h3 class="float-md-start mb-0" id="navbar-brand-name">Grant Sabraw</h3>
+                <nav class="nav justify-content-center float-md-end">
+                    <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="../../index.html">Home</a>
+                    <a class="nav-link fw-bold py-1 px-0" href="../index.html">Projects</a>
+                    <a class="nav-link fw-bold py-1 px-0" href="../../about/index.html">About</a>
+                    <a class="nav-link fw-bold py-1 px-0" href="../../contact/index.html">Contact</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="projects-container">
+            <section class="container-fluid py-3" id="top-section">
+                <div class="row py-lg-5 mx-auto">
+                    <div class="col-lg-6 col-md-8 mx-auto">
+                        <h1 id="heading">Python Toolbox for ArcGIS Pro</h1>
+                        <!-- <img src="compass.png" id="compass"> -->
+                        <!-- <p id="subtext"></p> -->
+                    </div>
+                </div>
+            </section>
+            <div class="album">
+                <div class="container">
+                    <div class="col-lg-8 col-md-12 mx-auto" id="paragraph">
+                        <p>This project was part of a BCIT course focussed on Python scripting for ArcGIS Pro. The goal
+                            was to create two tools: one that automatically created a configuration file and another
+                            that used that file to create a PDF report. BC park and tree data were used in this assignment. </p>
+                        <p>Link to full script: <a href="assignment_m09.pyt">assignment_m09.pyt</a></p>
+                        <h2 class="header-2"><br>Settings.json</h2>
+                        <p>The settings file is useful for avoiding hard coding and provides a simple way to ensure map
+                            and layout elements are correctly named so the next tool runs effectively. As can be seen
+                            the screenshot, the tool window allows the user to match the names of various ArcGIS Pro
+                            project items (e.g., feature classes, fields, and layout elements) with specific items in
+                            their particular project. </p>
+                        <!-- <ul>
+                            <li>Atlas feature class: feature class containing all features to be mapped</li>
+                            <li>atlas_field: field containing unique values for each feature to be mapped</li>
+                            <li>atlas_series_layer: layer in the map that contains the features to be mapped</li>
+                            <li>atlas_series_prefix: prefix to be added to each map in the series</li>
+                            <li>atlas_mapframe: name of the map frame in the layout</li>
+                            <li>atlas_title: name of the text element in the layout that will be updated with each map
+                                title</li>
+                        </ul> -->
+                        <img src="make_settings_file.png" class="arcgis-tool-window"
+                            alt="Tool window in ArcGIS Pro for creating settings file">
+                        <p>The block of code that writes these values to the settings file is fairly straightforward. It
+                            consists of retrieving the relevant parameters and using a search cursor to find every
+                            unique value in the specified field. Then, these key value pairs are written to the file.
+                        </p>
+                        <pre>
+                            <code>
+    def execute(self, parameters, messages):
+        # =============================================================
+        # Create dictionary to hold settings
+        # =============================================================
+        settings = {'version': 3.4}
+        # =============================================================
+        # Update settings with parameters
+        # =============================================================
+        settings.update({ __key_atlas_feature_class__ : parameters[0].valueAsText})
+        settings.update({ __key_atlas_field__ : parameters[1].valueAsText})
+        settings.update({ __key_atlas_series_layer__ : parameters[2].valueAsText})
+        settings.update({ __key_atlas_series_prefix__ : parameters[3].valueAsText})
+        settings.update({ __key_atlas_mapframe__ : parameters[4].valueAsText})
+        settings.update({ __key_atlas_title__ : parameters[5].valueAsText})
+        # =============================================================
+        # Update settings with unique field values
+        # =============================================================
+        value_list = []        
+        with ap.da.SearchCursor(parameters[0].valueAsText, parameters[1].valueAsText) as cursor:
+            for row in cursor:
+                if not row[0] in value_list:
+                    value_list.append(row[0])
+        value_list.sort()
+        
+        settings.update({'atlas_values' : value_list})
+        # =============================================================
+        # Save settings to JSON file
+        # =============================================================
+        with open(__settings_file_name__, 'w') as settings_file:
+            js.dump(settings, settings_file)
+
+        return
+                            </code>
+                        </pre>
+                        <p>The file then looks like this but with 930 atlas values: </p>
+                        <pre>
+                            <code>
+{
+    "version": 3.4,
+    "atlas_feature_class": "park_vir.gdb\\park_pa_bc",
+    "atlas_field": "PROTECTED_LANDS_NAME",
+    "atlas_series_layer": "Series_data",
+    "atlas_prefix": "Park",
+    "atlas_mapframe": "Main",
+    "atlas_title": "Title",
+    "atlas_values": [
+        "ADAMS LAKE MARINE PARK - POPLAR POINT SITE",
+        "ADAMS LAKE MARINE PARK - REFUGE BAY SITE",
+        "ADAMS LAKE MARINE PARK - SPILLMAN BEACH SITE"
+        ...
+    ]
+}
+                            </code>
+                        </pre>
+                        <h2 class="header-2"><br>Run Atlas Report</h2>
+                        <p>Using the newly created settings file, the next tool modifies the specified layout and saves
+                            it as a PDF. </p>
+                        <img src="run_atlas_report.png" class="arcgis-tool-window"
+                            alt="Tool window in ArcGIS Pro for running atlas report">
+                        <p>The next block of code retrieves the parameters and settings, changes the park name to make
+                            it SQL friendly, finds the extent of the selected park and sets the map frame extent
+                            accordingly, updates the layout title, and exports layout to PDF.
+                        </p>
+                        <pre>
+                            <code>
+    def execute(self, parameters, messages):
+        aprx = mp.ArcGISProject('current')
+        # =============================================================
+        # Open settings file and load settings
+        # =============================================================
+        with open(__settings_file_name__, 'r') as settings_file:
+            __toolbox_settings__ = js.load(settings_file)
+        # =============================================================
+        # Get parameters and settings
+        # =============================================================
+        park = parameters[0].valueAsText
+        series = parameters[1].valueAsText
+
+        field = __toolbox_settings__[__key_atlas_field__]
+        fc = __toolbox_settings__[__key_atlas_feature_class__]
+        # =============================================================
+        # Check if park name has single quotes and change them to double
+        # single quotes for SQL
+        # =============================================================
+        if '\'' in park:
+            park_split = park.split("'")
+            park_sql = park_split[0]
+            for i in range(len(park_split)):
+                if i != 0:
+                    park_sql = f'{park_sql}\'\'{park_split[i]}'
+            clause = f'{field} = \'{park_sql}\''
+        else:
+            clause = f'{field} = \'{park}\''
+        # =============================================================
+        # Find extent
+        # =============================================================
+        with ap.da.SearchCursor(fc, 
+                                [field, 'SHAPE@'], 
+                                clause) as cursor:
+            for row in cursor:
+                extent = row[1].extent
+        # =============================================================
+        # Set map frame extent and definition query
+        # =============================================================
+        layout = aprx.listLayouts(series)[0]
+        map_frame = layout.listElements("MAPFRAME_ELEMENT", 
+                                         __toolbox_settings__[__key_atlas_mapframe__])[0]
+        map_frame.camera.setExtent(extent)
+        series_layer = map_frame.map.listLayers(__toolbox_settings__[__key_atlas_series_layer__])[0]
+        series_layer.definitionQuery = clause
+        # =============================================================
+        # Change layout title
+        # =============================================================
+        title = layout.listElements('TEXT_ELEMENT', 'Title')[0]
+        title.text = f'{park}'
+        # =============================================================
+        # Export layout as PDF and remove any slashes from park name
+        # =============================================================
+        park_pdf = park
+        if '/' in park:
+            park_pdf = park_pdf.replace('/', '')
+        pdfFileName = f'{aprx.homeFolder}\{series}_{park_pdf}.pdf'
+        pdf = mp.CreateExportFormat('PDF', pdfFileName)
+        layout.export(pdf)
+        ap.AddMessage(f'Exported {map_frame.name} to {pdfFileName}')
+        
+        return
+                            </code>
+                        </pre>
+                        <p>Finally, we have a screenshot of the map itself along with a chart which is also queried to the specified park. </p>
+                        <img src="alice_lake_park.png" class="arcgis-tool-window"
+                            alt="Screen shot of Alice Lake Provincial Park PDF created by the tool">
+                    </div>
+                    <!-- <div class="row py-5">
+                        <div class="card shadow-sm">
+                            <div class="card-1"></div>
+                            <div class="card-body">
+                                <p class="card-text" id="cardtext1">Course project: reference map of Howe Sound,
+                                    BC.
+                                </p>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>© 2025 Grant Sabraw</p>
+            <p>Images, maps, and webpages created by Grant Sabraw unless otherwise noted</p>
+            <p>Connect with me: <a href="https://linkedin.com/in/grant-sabraw-469b5a17a">LinkedIn</a></p>
+        </footer>
+    </div>
+    <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <div id="definer-bubble-host"
+        style="position: absolute; top: 0px; overflow: visible; z-index: 500000; width: 0px; height: 0px; min-height: 0px; margin: 0px; padding: 0px;">
+    </div>
+</body>
+
+</html>

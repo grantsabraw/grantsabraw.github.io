@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100" data-bs-theme="light">
+
+<head>
+    <script src="/docs/5.3/assets/js/color-modes.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Grant Sabraw">
+    <title>Grant Sabraw</title>
+    <link rel="icon" type="image/x-icon" href="../../favicon.ico">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/cover/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <link href="../../cover.css" rel="stylesheet">
+    <link href="main.js" rel="script">
+</head>
+
+<body class="d-flex text-center text-bg-light flex-column">
+    <div class="d-flex w-100 mx-auto flex-column">
+        <header class="cover-navbar mb-auto">
+            <div>
+                <h3 class="float-md-start mb-0" id="navbar-brand-name">Grant Sabraw</h3>
+                <nav class="nav justify-content-center float-md-end">
+                    <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="../../index.html">Home</a>
+                    <a class="nav-link fw-bold py-1 px-0" href="../index.html">Projects</a>
+                    <a class="nav-link fw-bold py-1 px-0" href="../../about/index.html">About</a>
+                    <a class="nav-link fw-bold py-1 px-0" href="../../contact/index.html">Contact</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="projects-container">
+            <section class="container-fluid" id="top-section">
+                <div class="row py-lg-5 mx-auto">
+                    <div class="col-lg-6 col-md-8 mx-auto">
+                        <h1 id="heading">Spatially Order Points</h1>
+                    </div>
+                </div>
+            </section>
+            <div class="album">
+                <div class="container">
+                    <div class="col-lg-8 col-sm-12 col-md-12 mx-auto">
+                        <h2 class="header-2">Introduction</h2>
+                        <p>For a personal project in QGIS I was looking for a way to convert a collection of points
+                            into a polygon.
+                            After manually digitizing polygons from points a few times I got the idea of automating
+                            the process using python.
+                            Although I figured the time it took to learn PyQGIS and create a processing tool would
+                            outweigh any time saved by
+                            actually using the finished algorithm, it seemed like a good learning experience
+                            nonetheless.
+                            As such, I decided to try my hand at creating my own algorithm. </p>
+                        <p>The closest tool to what I was looking for was concave hull which essentially wraps a
+                            collection of points with a polygon.
+                            However, I was hoping to find something with a bit more precision.</p>
+                        <p>The algorithm i designed essentially assigns each point a position in a list based on
+                            proximity to adjacent points.
+                            For example, if point 1 is selected as the starting point, point 1 is closest to point
+                            3, point 3 is closest to point 2,
+                            and point 2 is closest to point 4, then the order would be 1, 3, 2, 4 (assuming features
+                            are sorted by ID and in ascending order: 1, 2, 3, 4).
+                            The resulting layer can then be used with the Point to path tool to create a line that
+                            connects each point to the two nearest points. </p>
+                        <p>Link to full script: <a href="spatiallyorderpoints.py">spatiallyorderpoints.py</a></p>
+                        <p>Link to example of its use: <a href="../walking-map/index.html#walking-limits">Walking Map</a></p>
+                        <p>Disclaimer: the script is a work in progress and there may be bugs I haven't worked out yet.
+                        </p>
+                        <br>
+                    </div>
+                    <!-- <div class="row" id="image-col"> -->
+                    <div class="col-lg-7 col-sm-12 col-md-12 py-3 mx-auto" id="image-col">
+                        <h2 class="header-2">Examples</h2>
+                        <p>An example of a point dataset to be converted into a polygon: </p>
+                        <img src="points.png" class="inline-image" alt="Blue points against a white background">
+
+                        <!-- </div> -->
+                        <!-- <div class="col-lg-6 col-sm-12 col-md-12 py-3"> -->
+                        <p><br>The results of concave hull:</p>
+                        <img src="points_concave_hull.png" class="inline-image"
+                            alt="Green line containing blue points against a white background">
+                        <p><br>Using the Points to path tool on an unordered dataset (i.e., dataset that hasn't been
+                            run through my algorithm. The points are connected in sequence of feature ID which
+                            appears
+                            random):</p>
+                        <img src="points_unordered.png" class="inline-image"
+                            alt="Sporadic orange line randomly connected to blue points against a white background">
+                        <p><br>Using the Points to path tool on an ordered dataset (i.e., dataset that has been run
+                            through my algorithm):</p>
+                        <img src="points_ordered.png" class="inline-image"
+                            alt="Orange line nicely connecting blue points against a white background">
+                    </div>
+                    <!-- </div> -->
+                    <div class="col-lg-8 col-sm-12 col-md-12 mx-auto">
+                        <h2 class="header-2"><br>The Algorithm</h2>
+                        <p>When the script is ran, the user is prompted to select the inputs and outputs which
+                            consist of a point layer,
+                            name of the new field the point order will be stored in, and the ID of the starting
+                            point (i.e., which point will be considered the first): </p>
+                        <img src="tool_window_crop.png" alt="QGIS tool window" id="tool-window">
+                        <p>Much of the code consists of PyQGIS items that are necessary for the tool to function in
+                            QGIS.
+                            As such, we will skip ahead and take a look at the parts of the code that actually
+                            processes the data. Firstly, variables are created for the inputs and checked for
+                            errors, the input feature is copied into the output feature, and the new field to store
+                            the order is created. </p>
+                        <pre>
+                                <code>
+def processAlgorithm(self, parameters, context, feedback):
+    input_feature = self.parameterAsVectorLayer(parameters, 'INPUT', context)
+    if input_feature.geometryType() != 0:
+        raise QgsProcessingException(
+            self.invalidSourceError(parameters, input_feature)
+        )
+
+    starting_id = self.parameterAsInt(parameters, 'STARTING_ID', context)
+    field_name = self.parameterAsString(parameters, 'FIELD_NAME', context)
+    output_path = self.parameterAsOutputLayer(parameters, 'OUTPUT', context)
+
+    if len(field_name) > 10:
+        feedback.pushWarning("WARNING: field name > 10 characters")
+
+    # Copy input feature
+    output_layer = input_feature.clone()
+        
+    # Check if field_name exists, if not, add it
+    if output_layer.fields().lookupField(field_name) == -1:
+        feedback.pushInfo('Creating new field...')
+        output_layer.startEditing()
+        output_layer.dataProvider().addAttributes([QgsField(field_name, QVariant.Int)])
+        output_layer.commitChanges()
+        feedback.pushInfo('Field created')
+    else:
+        feedback.pushInfo('Field already exists')
+        
+    # Create variables
+    field_index = output_layer.fields().lookupField(field_name)
+    id_list = input_feature.allFeatureIds()
+    id_sort = sorted(id_list)
+    if not starting_id in id_list:
+        feedback.reportError("ERROR: ID of starting point not found", True)
+        return {}
+
+    closest_id = starting_id
+    feedback.pushInfo('Number of features: ' + str(len(id_list)))
+    if len(id_list) <= 1:
+        feedback.reportError("ERROR: need at least 2 features", True)
+        return {}
+
+    count = 1
+    ordered_result = []
+                                </code>
+                            </pre>
+                        <p>Next is the main part of the code that calculates the order:
+                        <ol>
+                            <li>The main for loop only needs to iterate the same number of times as there are
+                                features in the dataset. The iterator variable id isn't needed. </li>
+                            <li>The geometry of the starting point is compared to the geometry of every other point
+                                in the feature using a nested for loop.</li>
+                            In subsequent iterations, the closest point to the last point is used as geom1. </li>
+                            <li>The row is sorted in ascending order so that the shortest distances come first.</li>
+                            <li>The second element in the row is set as the distance to the nearest point because
+                                the first element will contain the distance to itself (0.0). </li>
+                            <li>A while loop ensures that the next closest point is not any point that has already
+                                bean logged and it handles special conditions when the current point is the first or
+                                last point in the feature. </li>
+                            <li>closest_id is set to the ID of the nearest point for the next iteration. </li>
+                            <li>ordered_result stores point IDs and forms the desired sequence. </li>
+                            <li>Finally, there is progress feedback and the option to cancel the script. </li>
+                        </ol>
+                        </p>
+                        <pre>
+                                <code>
+    # Find the nearest point to the starting point, then use that nearest point as the starting point for the next iteration and repeat until every point has been logged
+    for id in id_sort:
+        j = 1
+        
+        row = []
+        geom1 = input_feature.getGeometry(closest_id)
+        for id2 in input_feature.getFeatures(): # I am assuming the feature iterator is ordered by feature id, it seems like it is
+            geom2 = id2.geometry()
+            distance = geom1.distance(geom2)
+            row.append(distance)
+            
+            if feedback.isCanceled():
+                break
+                return {}
+        
+        sorted_row = sorted(row)
+        smallest = sorted_row[1] # select the second item because the first will always be itself
+        
+        # While nearest point has already been logged or nearest point is the first point and current point is not the last point
+        while closest_id in ordered_result or (len(ordered_result) != 0 and closest_id == starting_id and (len(ordered_result) < len(id_list) - 1)):
+            smallest = sorted_row[j]
+            closest_id = id_sort[row.index(smallest)]
+            j += 1
+
+        closest_id = id_sort[row.index(smallest)]
+        ordered_result.append(closest_id)
+        
+        progress = count / (len(id_sort)) * 100
+        feedback.setProgress(progress)
+        count += 1
+        
+        if feedback.isCanceled():
+            break
+            return {}
+                                </code>
+                            </pre>
+                        <p>The feature iterator in the nested for loop seems to be ordered by feature id. If there
+                            are circumstances that I have not tested for where this is not the case, then my script
+                            wouldn't work. At the moment this is the only solution I am aware of. Before, I used
+                            getGeometry() within a loop to retrieve all the geometries for geom2 which provided a
+                            more certain method. But, this method was extremely inefficient and cause the script to
+                            potentially take several hours to complete with large datasets. The feature iterator is
+                            far more efficient and lowers the time it takes to run the script to up to a few
+                            minutes. </p>
+                        <p>The last block of code ensures that the value 1 is associated with starting_id, updates
+                            the newly created field to store the point order values, checks for errors, and returns
+                            the output feature. </p>
+                        <pre>
+                                <code>
+    # Shift the list over because the first point in ordered_result is never the starting_id
+    while ordered_result.index(starting_id) != 0:
+        ordered_result = [ordered_result[-1]] + ordered_result[:-1] # shift list to the right by one
+        
+    # Update attributes with point positions
+    output_layer.startEditing()
+    for id in id_sort:
+        output_layer.changeAttributeValue(id, field_index, ordered_result.index(id))
+        if feedback.isCanceled():
+            break
+            return {}
+
+    output_layer.commitChanges()
+
+    error = QgsVectorLayerExporter.exportLayer(output_layer, output_path, "ogr", input_feature.crs(), False)
+    if error[0] != QgsVectorLayerExporter.NoError:
+        raise QgsProcessingException(f"ERROR: Failed to export layer: {error[1]}")
+    if feedback.isCanceled():
+        return {}
+        
+    return {'OUTPUT': output_path}
+                                </code>
+                            </pre>
+                    </div>
+                </div>
+                <!-- <div class="col-lg-10 col-sm-12 col-md-12 mx-auto" id="w-100">
+                    <p>The full script:</p>
+                    <div class="" id="code">
+                        <pre id="code-text">
+                                <code>
+"""
+***************************************************************************
+    spatiallyorderpoints.py
+    ---------------------
+    Date                 : March 2025
+    Author               : Grant Sabraw
+***************************************************************************
+"""
+from qgis.PyQt.QtCore import QCoreApplication
+from qgis.core import (QgsProcessing,
+                        QgsProcessingAlgorithm,
+                        QgsProcessingException,
+                        QgsProcessingParameterFeatureSource,
+                        QgsProcessingParameterVectorDestination,
+                        QgsProcessingParameterNumber,
+                        QgsProcessingParameterString,
+                        QgsField,
+                        QgsVectorLayer,
+                        QgsFeature,
+                        QgsProcessingOutputVectorLayer,
+                        QgsVectorLayerExporter,
+                        QgsFeedback)
+from PyQt5.QtCore import QVariant
+from qgis import processing
+
+
+class SpatiallyOrderPoints(QgsProcessingAlgorithm):
+    def tr(self, string):
+        return QCoreApplication.translate('Processing', string)
+
+    def createInstance(self):
+        return SpatiallyOrderPoints()
+
+    def name(self):
+        return 'spatiallyorderpoints'
+
+    def displayName(self):
+        return self.tr('Spatially order points')
+
+    def group(self):
+        return self.tr('Custom')
+
+    def groupId(self):
+        return 'custom'
+
+    def shortHelpString(self):
+        return self.tr(
+            """
+            This algorithm calculates the relative position of each point based on proximity to the next closest point in the feature. Each point has a unique position, is only considered once, is stored in a newly created field, and is given a relative position to a user-defined starting feature ID.
+            
+            Example: pt_order = [2, 3, 4, 1]; assuming feature IDs are sorted in ascending order (1, 2, 3, 4) and point 4 was selected as the starting point, point 4 is closest to point 1 which is closest to point 2 which is closest to point 3. 
+            
+            Works well with the Points to path tool. 
+            
+            Input layer must not have overlapping points. 
+            """
+        )
+
+    def initAlgorithm(self, config=None):
+        self.addParameter(
+            QgsProcessingParameterFeatureSource(
+                'INPUT',
+                self.tr('Input point layer'),
+                types=[QgsProcessing.TypeVectorPoint]
+            )
+        )
+    
+        self.addParameter(
+            QgsProcessingParameterString(
+                'FIELD_NAME', 
+                'Name of field to store point positions', 
+                multiLine=False, 
+                defaultValue='pt_order'
+            )
+        )
+        
+        self.addParameter(
+            QgsProcessingParameterNumber(
+            'STARTING_ID', 
+            'ID of starting point', 
+            type=QgsProcessingParameterNumber.Integer, 
+            minValue=0, 
+            defaultValue=1
+            )
+        )
+        
+        self.addParameter(
+            QgsProcessingParameterVectorDestination(
+                'OUTPUT',
+                self.tr('ordered_points')
+            )
+        )
+        
+    def processAlgorithm(self, parameters, context, feedback):
+        input_feature = self.parameterAsVectorLayer(parameters, 'INPUT', context)
+        if input_feature.geometryType() != 0:
+            raise QgsProcessingException(
+                self.invalidSourceError(parameters, input_feature)
+            )
+        
+        starting_id = self.parameterAsInt(parameters, 'STARTING_ID', context)
+        field_name = self.parameterAsString(parameters, 'FIELD_NAME', context)
+        output_path = self.parameterAsOutputLayer(parameters, 'OUTPUT', context)
+        
+        if len(field_name) > 10:
+            feedback.pushWarning("WARNING: field name > 10 characters")
+        
+        # Copy input feature
+        output_layer = input_feature.clone()
+            
+        # Check if field_name exists, if not, add it
+        if output_layer.fields().lookupField(field_name) == -1:
+            feedback.pushInfo('Creating new field...')
+            output_layer.startEditing()
+            output_layer.dataProvider().addAttributes([QgsField(field_name, QVariant.Int)])
+            output_layer.commitChanges()
+            feedback.pushInfo('Field created')
+        else:
+            feedback.pushInfo('Field already exists')
+            
+        # Create variables
+        field_index = output_layer.fields().lookupField(field_name)
+        id_list = input_feature.allFeatureIds()
+        id_sort = sorted(id_list)
+        if not starting_id in id_list:
+            feedback.reportError("ERROR: ID of starting point not found", True)
+            return {}
+        
+        closest_id = starting_id
+        feedback.pushInfo('Number of features: ' + str(len(id_list)))
+        if len(id_list) <= 1:
+            feedback.reportError("ERROR: need at least 2 features", True)
+            return {}
+        
+        count = 1
+        ordered_result = []
+        
+        # Find the nearest point to the starting point, then use that nearest point as the starting point for the next iteration and repeat until every point has been logged
+        for id in id_sort:
+            j = 1
+            
+            row = []
+            geom1 = input_feature.getGeometry(closest_id)
+            for id2 in input_feature.getFeatures(): # I am assuming the feature iterator is ordered by feature id, it seems like it is
+                geom2 = id2.geometry()
+                distance = geom1.distance(geom2)
+                row.append(distance)
+                
+                if feedback.isCanceled():
+                    break
+                    return {}
+            
+            sorted_row = sorted(row)
+            smallest = sorted_row[1] # select the second item because the first will always be itself
+            
+            # While nearest point has already been logged or nearest point is the first point and current point is not the last point
+            while closest_id in ordered_result or (len(ordered_result) != 0 and closest_id == starting_id and (len(ordered_result) < len(id_list) - 1)):
+                smallest = sorted_row[j]
+                closest_id = id_sort[row.index(smallest)]
+                j += 1
+
+            closest_id = id_sort[row.index(smallest)]
+            ordered_result.append(closest_id)
+            
+            progress = count / (len(id_sort)) * 100
+            feedback.setProgress(progress)
+            count += 1
+            
+            if feedback.isCanceled():
+                break
+                return {}
+        
+        # Shift the list over because the first point in ordered_result is never the starting_id
+        while ordered_result.index(starting_id) != 0:
+            ordered_result = [ordered_result[-1]] + ordered_result[:-1] # shift list to the right by one
+            
+        # Update attributes with point positions
+        output_layer.startEditing()
+        for id in id_sort:
+            output_layer.changeAttributeValue(id, field_index, ordered_result.index(id))
+            if feedback.isCanceled():
+                break
+                return {}
+        
+        output_layer.commitChanges()
+        
+        error = QgsVectorLayerExporter.exportLayer(output_layer, output_path, "ogr", input_feature.crs(), False)
+        if error[0] != QgsVectorLayerExporter.NoError:
+            raise QgsProcessingException(f"ERROR: Failed to export layer: {error[1]}")
+        if feedback.isCanceled():
+            return {}
+            
+        return {'OUTPUT': output_path}
+                                </code>
+                            </pre>
+                    </div>
+                </div> -->
+            </div>
+    </div>
+    </main>
+
+    <footer class="footer w-100">
+        <p>© 2025 Grant Sabraw</p>
+        <p>Images, maps, and webpages created by Grant Sabraw unless otherwise noted</p>
+        <p>Connect with me: <a href="https://linkedin.com/in/grant-sabraw-469b5a17a">LinkedIn</a></p>
+    </footer>
+    </div>
+    <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <div id="definer-bubble-host"
+        style="position: absolute; top: 0px; overflow: visible; z-index: 500000; width: 0px; height: 0px; min-height: 0px; margin: 0px; padding: 0px;">
+    </div>
+</body>
+
+</html>
