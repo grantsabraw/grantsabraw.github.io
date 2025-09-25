@@ -1,0 +1,438 @@
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
+}
+
+/* .b-example-divider {
+    width: 100%;
+    height: 3rem;
+    background-color: rgba(0, 0, 0, .1);
+    border: solid rgba(0, 0, 0, .15);
+    border-width: 1px 0;
+    /* box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+} */
+
+.b-example-vr {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 100vh;
+}
+
+.bi {
+    vertical-align: -.125em;
+    fill: currentColor;
+}
+
+.bd-mode-toggle {
+    z-index: 1500;
+}
+
+.bd-mode-toggle .dropdown-menu .active .bi {
+    display: block !important;
+}
+
+.cover-container {
+    background-image: url('Contour8-white.png');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    background-color: rgb(255, 255, 255);
+}
+.cover-content {
+    color: black;
+}
+.float-md-start {
+    justify-content: center;
+}
+.footer {
+    background-color: #212529;
+    /* min-height: 50px; */
+    color: white;
+    font-size: 10pt;
+    height: 70px;
+    position: relative;
+    /* clear: both; */
+    /* margin-top: calc(100vh - 1035px); */
+    bottom: 0;
+}
+.footer p {
+    margin: 0;
+}
+/* ############################################################################ */
+/* Navbar formatting */
+/* ############################################################################ */
+.cover-navbar {
+    background-color: #212529;
+    padding: 15px;
+    color: rgb(255, 255, 255);
+    height: 65px;
+}
+.navbar-brand {
+    color: white;
+    cursor: pointer;
+    font-weight: 500;
+}
+@media screen and (max-width: 768px) {
+    #navbar-brand-name {
+        display: none;
+    }
+}
+.nav-link {
+    margin-right: 1em !important;
+    background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background-clip: text;
+    animation: hover 20s linear infinite;
+    background-size: 600px;
+    color: white;
+}
+@keyframes hover {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
+.nav-link:hover {
+    color: transparent;
+}
+.nav-link:visited {
+    color: white;
+}
+.navbar-collapse {
+    justify-content: flex-end;
+}
+/* ############################################################################ */
+/* Animation */
+/* ############################################################################ */
+.btn {
+    width: 120px;
+    height: 50px;
+    border: none;
+    outline: 2px solid #000000;
+    color: rgb(0, 0, 0);
+    background: white;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+    margin-top: 10px; /* Add space above the button */
+    margin-bottom: 0px; /* Add space below the button */
+  }
+  
+.btn:before {
+    content: '';
+    background: rgb(255, 255, 255);
+    position: absolute;
+    top: -2px;
+    left:-2px;
+    background-size: 400%;
+    z-index: -1;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    opacity: 1;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+}
+
+.btn:active {
+    color: #000000
+}
+
+.btn:active:after {
+    background: transparent;
+    color: black;
+} 
+
+.btn:hover:before {
+    opacity: 1;
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background-size: 400%;
+    filter: blur(5px);
+    animation: glowing 20s linear infinite;
+} 
+
+.btn:after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: white;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
+/* ############################################################################ */
+/* Projects */
+/* ############################################################################ */
+.projects-container {
+    min-height: calc(100vh - 135px);
+}
+#top-section {
+    background-color: #ffffff;
+}
+#top-section2 {
+    align-items: center;
+    align-content: center;
+    -ms-flex-align: center;
+}
+#heading {
+    color: #212529;
+}
+#compass {
+    height: 62px;
+    padding-bottom: 10px;
+}
+#subtext {
+    color: #212529;
+    font-size: 14pt;
+}
+.album {
+    padding-bottom: 100px;
+    padding-top: 40px;
+    text-align: left;
+}
+.a {
+    text-decoration: none;
+}
+.card {
+    /* box-shadow: black; */
+    cursor: pointer;
+}
+.card:hover {
+    text-decoration: underline;
+}
+.card-body {
+    background-color: white;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.card-text {
+    color: black;
+    text-decoration: none;
+}
+.cards {
+    background-size: cover;
+    height: 225px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+#card-1 {
+    background-image: url('projects/GS-8117-Proj-3-3-thumbnail.jpg');
+}
+#card-2 {
+    background-image: url('projects/GS-8117-Proj-4-4-thumbnail.jpg');
+}
+#card-3 {
+    background-image: url('projects/spatiallyorderpoints/points_ordered.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#card-4 {
+    background-image: url('projects/liquor-license/fme_output.png');
+}
+#card-5 {
+    background-image: url('projects/leaflet-bears-thumbnail.png');
+}
+#card-6 {
+    background-image: url('projects/python-toolbox/alice_lake_park.png');
+}
+#card-7 {
+    background-image: url('projects/autocad/cul-de-sac.png');
+}
+#card-8 {
+    background-image: url('projects/walking-map/map_thumbnail.png');
+}
+/* ############################################################################ */
+/* about */
+/* ############################################################################ */
+#grantbcit {
+    width: 100%;
+    border-radius: 10px;
+}
+/* ############################################################################ */
+/* contact */
+/* ############################################################################ */
+#contact-info {
+    text-align: center;
+}
+#mountain-img {
+    width: 100%;
+    background-image: url('contact/Mountain.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+#top-section-contact {
+    color: white;
+    background-color: #ffffff;
+}
+/* ############################################################################ */
+/* howe-sound */
+/* ############################################################################ */
+#howe-sound-img {
+    max-width: 100%;
+}
+#paragraph {
+    padding-bottom: 3vh;
+}
+/* ############################################################################ */
+/* spatiallyorderpoints */
+/* ############################################################################ */
+#code {
+    /* box-shadow: black; */
+    /* background-color: #303030; */
+    border-radius: 5px;
+    width: 100%;
+    outline: solid;
+    outline-width: 1pt;
+    outline-color: #d2d2d2;
+    background-color: #f3f3f3;
+}
+.inline-image {
+    width: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    /* outline: solid; */
+    outline-width: 1pt;
+    outline-color: #d2d2d2;
+}
+#image-col {
+    border-radius: 10px;
+    height: 100%;
+    outline: solid;
+    outline-width: 1pt;
+    outline-color: #d2d2d2;
+    padding: 20px;
+}
+#tool-window {
+    padding-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.header-2 {
+    text-align: center;
+}
+/* ############################################################################ */
+/* liquor-license */
+/* ############################################################################ */
+.liquor-license-img {
+    max-width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+}
+.image-text {
+    text-align: center;
+    font-style: italic;
+    padding-bottom: 20px;
+    max-width: 694px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.liquor-table {
+    border: 1px solid #d2d2d2;
+}
+#table-caption {
+    color: black;
+    font-style: italic;
+}
+/* ############################################################################ */
+/* leaflet-bears */
+/* ############################################################################ */
+.leaflet-container {
+    max-width: 100%;
+    max-height: 100%;
+}
+#map {
+    width: 1298px;
+    height: 600px;
+}
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+.legend {
+    text-align: left;
+    line-height: 18px;
+    color: #555;
+}
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+/* Table scrollbar settings */
+.my-custom-scrollbar {
+    position: relative;
+    height: 320px;
+    overflow: auto;
+    }
+.table-wrapper-scroll-y {
+    display: block;
+    }
+/* Chart settings */
+.Chart {
+    height: 100%;
+    width: 100%;
+    background-color: #F0F0F0;
+}
+/* ############################################################################ */
+/* python-toolbox */
+/* ############################################################################ */
+.arcgis-tool-window {
+    padding-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+}
+/* ############################################################################ */
+/* Walking map */
+/* ############################################################################ */
+#walk-code {
+    border-radius: 5px;
+    width: 100%;
+    outline: solid;
+    outline-width: 1pt;
+    outline-color: #d2d2d2;
+    background-color: #f3f3f3;
+}
+.map-table {
+    border: 1px solid #d2d2d2;
+    font-size: 10pt;
+}
+#map-table-caption {
+    color: black;
+    font-style: italic;
+    font-size: 12pt;
+}
